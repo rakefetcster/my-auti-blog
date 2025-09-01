@@ -33,6 +33,18 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({
 
     return bgColors[category] || "from-gray-200 to-gray-400";
   };
+
+  // Get alternating background color for search results
+  const getAlternatingBgColor = (index: number) => {
+    if (index % 2 === 0) {
+      // Even rows - lighter gradient
+      return "bg-gradient-to-r from-[#F8D6EB] via-[#F4C2E0] to-[#F8D6EB]";
+    } else {
+      // Odd rows - deeper gradient
+      return "bg-gradient-to-r from-[#F8D6EB] via-[#D26BB3] to-[#F8D6EB]";
+    }
+  };
+
   // Get unique categories from posts
   const categories = isHebrew ? CATEGORIES : CATEGORIES_EN;
 
@@ -177,7 +189,7 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({
         <div className="flex gap-2">
           <button
             onClick={clearFilters}
-            className="px-4 py-2 bg-[#EBDBE1] hover:bg-[#EDC7D2] text-[#020908] rounded-lg transition-colors duration-200 text-sm font-medium"
+            className="px-4 py-2 bg-gradient-to-r from-[#F8D6EB] via-[#E8B8D8] to-[#F8D6EB] hover:from-[#E8B8D8] hover:via-[#D26BB3] hover:to-[#E8B8D8] text-[#8B2C78] hover:text-white rounded-lg transition-all duration-300 text-sm font-semibold shadow-sm hover:shadow-md transform hover:scale-[1.02]"
           >
             {isHebrew ? "נקה מסננים" : "Clear filters"}
           </button>
@@ -185,7 +197,7 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({
           {filteredPosts.length > 0 && (
             <button
               onClick={toggleResults}
-              className="px-4 py-2 bg-[#EBDBE1] hover:bg-[#EDC7D2] text-[#020908] rounded-lg transition-colors duration-200 text-sm font-medium flex items-center gap-2"
+              className="px-4 py-2 bg-gradient-to-r from-[#F8D6EB] via-[#D26BB3] to-[#F8D6EB] hover:from-[#D26BB3] hover:via-[#8B2C78] hover:to-[#D26BB3] text-white hover:text-white rounded-lg transition-all duration-300 text-sm font-semibold flex items-center gap-2 shadow-sm hover:shadow-md transform hover:scale-[1.02]"
             >
               <span>
                 {isHebrew
@@ -215,18 +227,20 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({
             {isHebrew ? "תוצאות החיפוש:" : "Search Results:"}
           </h4>
           <div className="space-y-3">
-            {filteredPosts.map((post) => (
+            {filteredPosts.map((post, index) => (
               <div
                 key={post._id}
-                className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-white/60 rounded-lg hover:bg-white/80 transition-colors duration-200"
+                className={`flex flex-col sm:flex-row sm:items-center justify-between p-3 ${getAlternatingBgColor(
+                  index
+                )} rounded-lg hover:shadow-md hover:scale-[1.01] transition-all duration-300`}
                 dir={isHebrew ? "rtl" : "ltr"}
               >
                 <div className="flex-1 mb-2 sm:mb-0">
                   <h5 className="font-medium text-gray-900 mb-1 line-clamp-2">
                     {post.headline}
                   </h5>
-                  <div className="text-xs text-gray-500 flex items-center gap-2">
-                    <span className="bg-gray-200 px-2 py-1 rounded-full">
+                  <div className="text-xs text-gray-700 flex items-center gap-2">
+                    <span className="bg-white/70 px-2 py-1 rounded-full shadow-sm">
                       {post.category}
                     </span>
                     <span>{post.date}</span>
@@ -239,7 +253,7 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({
                     )}
                   </div>
                   {post.summary && (
-                    <p className="text-sm text-gray-600 mt-2 line-clamp-2">
+                    <p className="text-sm text-gray-700 mt-2 line-clamp-2">
                       {post.summary}
                     </p>
                   )}
@@ -255,7 +269,7 @@ export const SearchComponent: React.FC<SearchComponentProps> = ({
                   }}
                   className="group-hover:text-blue-600 transition-colors flex-shrink-0"
                 >
-                  <span className="text-blue-600 hover:text-blue-700 font-medium text-sm group-hover:translate-x-1 transition-all duration-200 flex items-center gap-1 cursor-pointer">
+                  <span className="text-[#8B2C78] hover:text-[#6B1E5A] font-semibold text-sm group-hover:translate-x-1 transition-all duration-200 flex items-center gap-1 cursor-pointer bg-white/80 px-3 py-1 rounded-full shadow-sm hover:shadow-md">
                     {isHebrew ? (
                       <>
                         <span>המשך לקרוא</span>

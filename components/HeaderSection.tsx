@@ -42,7 +42,8 @@ export const HeaderSection: React.FC<HeaderSectionProps> = ({
     <>
       {/* Header */}
       <header className="relative overflow-hidden">
-        <div className="absolute inset-0 from-[#F2CCE4] to-[##B569A5] bg-gradient-to-br"></div>
+        <div className="absolute inset-0  bg-gradient-to-r bg-gradient-to-r bg-gradient-to-r from-[#F8D6EB] via-[#D26BB3] via-[#8B2C78] via-[#D26BB3] to-[#F8D6EB] bg-gradient-to-br"></div>
+        {/* from-[#F2CCE4] to-[##B569A5] */}
         <div className="relative px-6 py-16">
           {language === "Hebrew" ? (
             <div className="max-w-4xl mx-auto text-center">

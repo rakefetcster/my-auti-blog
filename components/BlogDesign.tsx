@@ -32,6 +32,7 @@ export const BlogDesign: React.FC<BlogDesignProps> = ({ language }) => {
   const [allPosts, setAllPosts] = useState<Post[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<Post[]>([]); // Add this state
   const [lastPost, setLastPost] = useState<Post | null>(null);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -62,6 +63,13 @@ export const BlogDesign: React.FC<BlogDesignProps> = ({ language }) => {
       fetchData();
     }
   }, [language]);
+
+  useEffect(() => {
+    const storedKey = localStorage.getItem("adminKey");
+    if (storedKey === process.env.NEXT_PUBLIC_ADMIN_KEY) {
+      setIsAdmin(true);
+    }
+  }, []);
 
   const getDataFromJourney = (data: boolean) => {
     console.log("Data from Journey:", data);
@@ -95,17 +103,41 @@ export const BlogDesign: React.FC<BlogDesignProps> = ({ language }) => {
       console.error("Error creating post:", error);
     }
   };
-
+  const handleAdminLogin = () => {
+    const key = prompt("Enter admin key:"); // only you know it
+    if (key === process.env.NEXT_PUBLIC_ADMIN_KEY) {
+      localStorage.setItem("adminKey", key);
+      setIsAdmin(true);
+    } else {
+      alert("Invalid key");
+    }
+  };
   return (
     <div
-      className="min-h-screen bg-gradient-to-br  bg-[#DDD8D4]" //from-[#1E3A8A] via-[#3B82F6] to-[#1E40AF]"
+      className="min-h-screen bg-gradient-to-br bg-[#DDD8D4]" //from-[#1E3A8A] via-[#3B82F6] to-[#1E40AF]"
       dir={language === "Hebrew" ? "rtl" : "ltr"}
     >
-      <AdminControls
+      {/* <AdminControls
         isAdmin={isAdmin}
         setIsAdmin={setIsAdmin}
         setShowCreateForm={setShowCreateForm}
-      />
+      /> */}
+      {!isAdmin && (
+        <button
+          className="text-xs opacity-30 hover:opacity-100 fixed bottom-2 right-2"
+          onClick={handleAdminLogin}
+        >
+          Admin
+        </button>
+      )}
+
+      {isAdmin && (
+        <AdminControls
+          isAdmin={isAdmin}
+          setIsAdmin={setIsAdmin}
+          setShowCreateForm={setShowCreateForm}
+        />
+      )}
 
       {showCreateForm && (
         <CreateBlogForm

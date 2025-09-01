@@ -95,14 +95,9 @@ export const PostsGrid: React.FC<PostsGridProps> = ({ allPosts, language }) => {
                         : `${post.readingTime} minutes`}
                     </span>
                   </div>
-                  {/* <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors leading-tight">
-                    {post.title}
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
-                    {post.summary}
-                  </p> */}
+
                   <div className="flex flex-col h-28">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors leading-tight line-clamp-2 flex-shrink-0">
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:[#b569a5] transition-colors leading-tight line-clamp-2 flex-shrink-0">
                       {post.title}
                     </h3>
                     <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3 flex-1 overflow-hidden">
@@ -120,9 +115,9 @@ export const PostsGrid: React.FC<PostsGridProps> = ({ allPosts, language }) => {
                         lang: language,
                       },
                     }}
-                    className="group-hover:text-blue-600 transition-colors"
+                    className="group-hover:bg-[#b569a5] transition-colors"
                   >
-                    <span className="text-[#665865] hover:text-blue-700 font-medium text-sm group-hover:translate-x-1 transition-all duration-200 flex items-center gap-1 cursor-pointer">
+                    <span className="text-[#8B2C78] hover:text-[#6B1E5A] font-semibold text-sm group-hover:translate-x-1 transition-all duration-200 flex items-center gap-1 cursor-pointer bg-white/80 px-3 py-1 rounded-full shadow-sm hover:shadow-md">
                       {isHebrew ? (
                         <>
                           <span>המשך לקרוא</span>
