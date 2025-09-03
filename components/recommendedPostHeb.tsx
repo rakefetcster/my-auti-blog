@@ -1,7 +1,12 @@
 import React from "react";
 import Image from "next/image"; // Make sure to import Image component
 
-const RecommendedHeb = (props: { callback: any }) => {
+// Define proper types for the props
+interface RecommendedHebProps {
+  callback: (value: boolean) => void;
+}
+
+const RecommendedHeb = (props: RecommendedHebProps) => {
   // This component displays a recommended post section
   return (
     <section className="mb-16">

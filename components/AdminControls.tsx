@@ -1,5 +1,4 @@
-"use client";
-import React from "react";
+import React, { useState } from "react";
 
 interface AdminControlsProps {
   isAdmin: boolean;
@@ -7,78 +6,95 @@ interface AdminControlsProps {
   setShowCreateForm: (value: boolean) => void;
 }
 
+// Get admin key from environment variables
+const ADMIN_KEY = process.env.NEXT_PUBLIC_ADMIN_KEY || "fallback-key-change-me";
+
 export const AdminControls: React.FC<AdminControlsProps> = ({
   isAdmin,
   setIsAdmin,
   setShowCreateForm,
 }) => {
-  const checkAdminAccess = async () => {
-    const userInput = prompt("הכנס סיסמת מנהל:");
+  const [adminKey, setAdminKey] = useState("");
+  const [showKeyError, setShowKeyError] = useState(false);
 
-    if (userInput === null) {
-      // User cancelled
-      return;
-    }
-
-    try {
-      // Call API to verify password
-      const response = await fetch("/api/admin/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ password: userInput }),
-      });
-
-      if (response.ok) {
-        setIsAdmin(true);
-        alert("התחברת כמנהל בהצלחה!");
-      } else {
-        alert("סיסמה שגויה!");
-      }
-    } catch (error) {
-      console.error("Admin verification error:", error);
-      alert("שגיאה בבדיקת הסיסמה");
+  const handleAdminLogin = () => {
+    if (adminKey === ADMIN_KEY) {
+      setIsAdmin(true);
+      setShowKeyError(false);
+      setAdminKey(""); // Clear the key input
+    } else {
+      setShowKeyError(true);
+      setTimeout(() => setShowKeyError(false), 3000); // Hide error after 3 seconds
     }
   };
 
-  const handleLogout = () => {
+  const handleAdminLogout = () => {
     setIsAdmin(false);
+    setAdminKey("");
+    setShowKeyError(false);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleAdminLogin();
+    }
   };
 
   return (
-    <>
-      {/* Admin Create Button - Floating */}
-      {isAdmin && (
-        <div className="fixed bottom-6 left-6 z-40">
-          <button
-            onClick={() => setShowCreateForm(true)}
-            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full shadow-lg font-medium transition-all duration-300 flex items-center gap-2"
-          >
-            <span>✍️</span>
-            <span>פוסט חדש</span>
-          </button>
+    <div className="fixed top-4 left-4 z-50">
+      {!isAdmin ? (
+        <div className="bg-white rounded-lg shadow-lg p-4 border-2 border-gray-200">
+          <h3 className="text-sm font-semibold text-gray-700 mb-2">
+            🔐 Admin Access
+          </h3>
+
+          <div className="flex flex-col space-y-2">
+            <input
+              type="password"
+              placeholder="Enter admin key..."
+              value={adminKey}
+              onChange={(e) => setAdminKey(e.target.value)}
+              onKeyPress={handleKeyPress}
+              className="px-3 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+
+            <button
+              onClick={handleAdminLogin}
+              className="px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+            >
+              Login
+            </button>
+
+            {showKeyError && (
+              <div className="text-xs text-red-600 bg-red-50 p-2 rounded border border-red-200">
+                ❌ Invalid admin key
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="bg-green-50 rounded-lg shadow-lg p-4 border-2 border-green-200">
+          <h3 className="text-sm font-semibold text-green-700 mb-3">
+            ✅ Admin Panel
+          </h3>
+
+          <div className="flex flex-col space-y-2">
+            <button
+              onClick={() => setShowCreateForm(true)}
+              className="px-4 py-2 text-sm bg-green-600 text-white rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors"
+            >
+              + Create New Post
+            </button>
+
+            <button
+              onClick={handleAdminLogout}
+              className="px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+            >
+              Logout
+            </button>
+          </div>
         </div>
       )}
-
-      {/* Admin Login/Logout Button - Top Right */}
-      <div className="fixed top-6 left-6 z-40">
-        {!isAdmin ? (
-          <button
-            onClick={checkAdminAccess}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm opacity-50 hover:opacity-100 transition-all duration-300"
-          >
-            🔑
-          </button>
-        ) : (
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300"
-          >
-            התנתק
-          </button>
-        )}
-      </div>
-    </>
+    </div>
   );
 };

@@ -32,3 +32,14 @@ export interface PostCardProps {
   bgColor: string;
   icon: string;
 }
+
+export interface FormData {
+  headline: { value: string };
+  content: { value: string };
+  category: { value: string };
+  summary: { value: string };
+}
+export interface FormEvent {
+  preventDefault: () => void;
+  target: FormData;
+}

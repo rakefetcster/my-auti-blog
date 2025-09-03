@@ -1,7 +1,12 @@
 // import React from "react";
 import Image from "next/image"; // Make sure to import Image component
 
-const RecommendedEng = (props: { callback: any }) => {
+// Define proper types for the props
+interface RecommendedEngProps {
+  callback: (value: boolean) => void;
+}
+
+const RecommendedEng = (props: RecommendedEngProps) => {
   // This component displays a recommended post section
   return (
     <section className="mb-16">

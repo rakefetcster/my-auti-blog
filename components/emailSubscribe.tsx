@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { SERVER_URL, TODAY } from "@/src/constants/blogConstants";
 import axios from "axios";
 
@@ -18,7 +18,7 @@ export const EmailSubscribe: React.FC<EmailSubscribeProps> = ({ language }) => {
     return emailRegex.test(email);
   };
 
-  const handleSubscribe = async (e: any) => {
+  const handleSubscribe = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log("Subscribe button clicked with email:", email);
     console.log("Current language:", language); // Debug language value

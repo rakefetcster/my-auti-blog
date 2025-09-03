@@ -3,7 +3,7 @@ import React from "react";
 import { CATEGORIES, CATEGORIES_EN } from "../src/constants/blogConstants";
 
 interface CreateBlogFormProps {
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void | Promise<void>;
   onClose: () => void;
   language?: string; // Optional language prop for future use
 }

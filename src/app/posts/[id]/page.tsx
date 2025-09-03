@@ -72,7 +72,7 @@ export default function PostDetails() {
         {/* Close button */}
         <div className="mt-6 flex justify-end">
           <button
-            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+            className="bg-gradient-to-r from-[#F8D6EB] via-[#D26BB3] to-[#F8D6EB] hover:from-[#D26BB3] hover:via-[#8B2C78] hover:to-[#D26BB3] text-white hover:text-white rounded-lg transition-all duration-300 text-sm font-semibold flex items-center gap-2 shadow-sm hover:shadow-md transform hover:scale-[1.02] text-white px-6 py-2 rounded-lg "
             onClick={() => router.back()}
           >
             סגור

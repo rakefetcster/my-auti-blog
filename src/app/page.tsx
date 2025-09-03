@@ -1,16 +1,43 @@
 "use client";
 
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BlogDesign } from "@/components/BlogDesign";
 
 // ✅ FIXED: Changed from named export to default export
 export default function HomePage() {
   const [isEnglish, setIsEnglish] = useState(true);
 
+  // Persist language choice in URL parameters when admin mode is active
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const langParam = urlParams.get("lang");
+    const adminParam = urlParams.get("admin");
+
+    // If there's a language parameter, use it
+    if (langParam === "he" || langParam === "hebrew") {
+      setIsEnglish(false);
+    } else if (langParam === "en" || langParam === "english") {
+      setIsEnglish(true);
+    }
+  }, []);
+
   const handleLanguageToggle = () => {
-    setIsEnglish(!isEnglish);
-    console.log(isEnglish);
+    const newIsEnglish = !isEnglish;
+    setIsEnglish(newIsEnglish);
+
+    // If admin parameter exists, preserve it while switching language
+    const urlParams = new URLSearchParams(window.location.search);
+    const adminParam = urlParams.get("admin");
+
+    if (adminParam) {
+      // Update URL to include both admin and language parameters
+      const newLang = newIsEnglish ? "en" : "he";
+      const newUrl = `${window.location.pathname}?admin=${adminParam}&lang=${newLang}`;
+      window.history.replaceState({}, "", newUrl);
+    }
+
+    console.log("Language switched to:", newIsEnglish ? "English" : "Hebrew");
   };
 
   return (

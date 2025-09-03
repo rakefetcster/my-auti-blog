@@ -56,7 +56,7 @@ export const PostsGrid: React.FC<PostsGridProps> = ({ allPosts, language }) => {
       {/* Posts Grid */}
       <section>
         <div className={`grid md:grid-cols-3 gap-8 $`}>
-          {posts.map((post, index) => (
+          {posts.map((post) => (
             <article key={`${post._id}-${language}`} className="group">
               {" "}
               {/* Added language to key */}

@@ -1,9 +1,11 @@
 import React from "react";
-
 import Image from "next/image";
-import Link from "next/link";
 
-export default function PostHeb1(props: { callback: any }) {
+interface PostHeb1Props {
+  callback: (value: boolean) => void;
+}
+
+export default function PostHeb1(props: PostHeb1Props) {
   return (
     <div className="max-w-6xl mx-auto bg-gradient-to-l from-pink-50 via-purple-50 to-rose-100 rounded-2xl shadow-lg overflow-hidden mb-12 relative min-h-[600px]">
       {/* תמונה כרקע בצד שמאל - שקופה */}
@@ -63,7 +65,7 @@ export default function PostHeb1(props: { callback: any }) {
         </div>
         <div>
           <button
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors"
+            className="mt-4 bg-gradient-to-r from-[#F8D6EB] via-[#E8B8D8] to-[#F8D6EB] hover:from-[#E8B8D8] hover:via-[#D26BB3] hover:to-[#E8B8D8] text-[#8B2C78] hover:text-white rounded-lg transition-all duration-300 text-sm font-semibold shadow-sm hover:shadow-md transform hover:scale-[1.02]"
             onClick={() => props.callback(false)}
           >
             סגור
